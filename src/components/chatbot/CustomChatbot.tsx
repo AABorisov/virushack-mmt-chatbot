@@ -11,8 +11,8 @@ interface CustomChatbotStateProps {
 }
 function CustomChatbot(props: CustomChatbotStateProps) {
   const config = {
-    width: '300px',
-    height: '400px',
+    width: '500px',
+    height: '700px',
     floating: true,
   };
 
