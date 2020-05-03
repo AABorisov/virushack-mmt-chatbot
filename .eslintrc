@@ -30,7 +30,8 @@
     "import/prefer-default-export": "warn",
     "@typescript-eslint/ban-ts-ignore": "warn",
     "@typescript-eslint/no-var-requires": "off",
-    "react/prefer-stateless-function": "warn"
+    "react/prefer-stateless-function": "warn",
+    "react/jsx-props-no-spreading": "warn",
   },
   "settings": {
     "import/extensions": [".js", ".jsx", ".ts", ".tsx"],

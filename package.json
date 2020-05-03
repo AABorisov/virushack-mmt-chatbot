@@ -74,6 +74,7 @@
     "react-router-dom": "^5.1.2",
     "react-simple-chatbot": "^0.6.1",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.1.0"
   }
 }
