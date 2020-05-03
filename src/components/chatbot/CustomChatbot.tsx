@@ -1,25 +1,36 @@
 import * as React from 'react';
 // @ts-ignore
 import ChatBot from 'react-simple-chatbot';
+import { connect } from 'react-redux';
+import { AppState } from '../../store';
+import { QuestionSteps } from '../../store/questions/types';
 
-function CustomChatbot() {
+interface CustomChatbotStateProps {
+  questionSteps: QuestionSteps;
+  fetchPending: boolean;
+}
+function CustomChatbot(props: CustomChatbotStateProps) {
   const config = {
     width: '300px',
     height: '400px',
     floating: true,
   };
-  const steps = [
-    {
-      id: 'Greet',
-      message: 'Hello, Welcome to our shop',
-      trigger: 'Done',
-    },
-    {
-      id: 'Done',
-      message: 'Have a great day !!',
-      end: true,
-    },
-  ];
+
+  const pending = !props.questionSteps.length || props.fetchPending;
+  if (pending) {
+    return <></>;
+  }
+  const steps = props.questionSteps;
+
+  console.log(steps);
+
   return <ChatBot steps={steps} {...config} />;
 }
-export default CustomChatbot;
+
+// @ts-ignore
+const mapStateToProps = (state: AppState): CustomChatbotStateProps => ({
+  questionSteps: state.questions.questionSteps,
+  fetchPending: state.questions.pending,
+});
+
+export default connect(mapStateToProps)(CustomChatbot);

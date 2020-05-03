@@ -1,6 +1,5 @@
 const API = {
-  transportTypes: '/api/transportTypes',
-  path: '/api/path',
+  questions: '/public/data/Q&A.json',
 };
 
 export default API;

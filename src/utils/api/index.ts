@@ -1,5 +1,5 @@
-import * as path from './path';
+import * as questions from './questions';
 
 export default {
-  path,
+  questions,
 };

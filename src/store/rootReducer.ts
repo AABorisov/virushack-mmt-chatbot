@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
-import pathReducer from './path/reducer';
+// @ts-ignore
+import questionsReducer from './questions/reducer';
 
 export default combineReducers({
-  path: pathReducer,
+  questions: questionsReducer,
 });
