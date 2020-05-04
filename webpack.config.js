@@ -73,11 +73,11 @@ module.exports = (env, options) => {
         from: 'public/data',
         to: 'public/data'
       }]),
-      // new MiniCssExtractPlugin({
-      //   filename: '[name].css',
-      //   chunkFilename: '[id].css',
-      //   ignoreOrder: false,
-      // }),
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+        chunkFilename: '[id].css',
+        ignoreOrder: false,
+      }),
       new HtmlWebPackPlugin({
         template: './public/index.html',
         filename: './index.html',
