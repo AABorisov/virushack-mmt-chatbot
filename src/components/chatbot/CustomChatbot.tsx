@@ -44,9 +44,9 @@ function CustomChatbot(props: CustomChatbotStateProps) {
   if (pending) {
     return <></>;
   }
-  // const steps = props.questionSteps;
+  const steps = props.questionSteps;
 
-  const steps = [
+  /* const steps = [
     {
       id: '1',
       message: 'What is your name?',
@@ -82,7 +82,7 @@ function CustomChatbot(props: CustomChatbotStateProps) {
       waitAction: true,
       trigger: '5',
     },
-  ];
+  ];*/
   return (
     <ThemeProvider theme={theme}>
       <ChatBot steps={steps} {...config} />

@@ -67,7 +67,8 @@ export const fetchQuestions = (): ThunkResult<Promise<void>, FetchQuestionsActio
 ): Promise<void> => {
   dispatch(fetchQuestionsPending());
   try {
-    const questions = await Api.allQuestions(); // await getQuestions();
+    const questions = await Api.allQuestions();
+    // const questions = await getQuestions();
     console.log(questions);
     const questionSteps = convertResponseToQuestionSteps(questions);
     dispatch(fetchQuestionsSuccess(questionSteps));

@@ -26,7 +26,7 @@ export default function questionsReducer(
     case FETCH_QUESTIONS_SUCCESS:
       return {
         ...state,
-        questionSteps: action.payload,
+        questionSteps: [...state.questionSteps, ...action.payload],
         pending: false,
       };
     case FETCH_QUESTIONS_ERROR:
