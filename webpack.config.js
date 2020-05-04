@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -22,6 +23,10 @@ module.exports = (env, options) => {
 
     module: {
       rules: [
+        {
+          test: /\.css$/i,
+          loader: 'style-loader!css-loader'
+        },
         {
           test: /\.s[ac]ss$/i,
           use: [
@@ -68,14 +73,17 @@ module.exports = (env, options) => {
         from: 'public/data',
         to: 'public/data'
       }]),
-      new MiniCssExtractPlugin({
-        filename: '[name].css',
-        chunkFilename: '[id].css',
-        ignoreOrder: false,
-      }),
+      // new MiniCssExtractPlugin({
+      //   filename: '[name].css',
+      //   chunkFilename: '[id].css',
+      //   ignoreOrder: false,
+      // }),
       new HtmlWebPackPlugin({
         template: './public/index.html',
         filename: './index.html',
+      }),
+      new webpack.DefinePlugin({
+        'process.env.API_URL': JSON.stringify('http://89.223.95.49:5000/'),
       }),
     ],
     output: {

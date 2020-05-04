@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { AppState } from '../../store';
 import { QuestionSteps } from '../../store/questions/types';
-// import CheckboxStep from "./customSteps/CheckboxStep";
-import OptionsStep from './customSteps/options/OptionsStep';
+import CheckboxStep from './customSteps/CheckboxStep';
+// import OptionsStep from './customSteps/options/OptionsStep';
+import AskStep from './customSteps/AskStep';
 
 interface CustomChatbotStateProps {
   questionSteps: QuestionSteps;
@@ -49,20 +50,10 @@ function CustomChatbot(props: CustomChatbotStateProps) {
     {
       id: '1',
       message: 'What is your name?',
-      trigger: 'gender',
+      trigger: '4',
     },
     {
-      id: 'name',
-      user: true,
-      trigger: '3',
-    },
-    {
-      id: '3',
-      message: 'Hi {previousValue}! What is your gender?',
-      trigger: 'gender',
-    },
-    {
-      id: 'gender',
+      id: '4',
       metadata: {
         options: [
           { value: 'male', label: 'Male', trigger: '5' },
@@ -73,17 +64,23 @@ function CustomChatbot(props: CustomChatbotStateProps) {
           unchecked: '5',
         },
       },
-      component: <OptionsStep />,
+      component: <CheckboxStep />,
     },
     {
       id: '5',
-      message: 'How old are you?',
-      trigger: 'age',
+      message: 'Ask anything?',
+      trigger: 'ask',
     },
     {
-      id: 'age',
+      id: 'ask',
       user: true,
-      end: true,
+      trigger: 'answer',
+    },
+    {
+      id: 'answer',
+      component: <AskStep />,
+      waitAction: true,
+      trigger: '5',
     },
   ];
   return (

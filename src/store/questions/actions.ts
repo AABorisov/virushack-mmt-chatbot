@@ -13,7 +13,7 @@ import {
 import { getQuestions } from '../../utils/api/questions';
 import { ThunkResult } from '../types';
 import { QuestionsResponseData } from '../../utils/api/questions/types';
-import questionsReducer from './reducer';
+import Api from '../../utils/api/Api';
 
 export const fetchQuestionsPending = (): FetchQuestionsPendingAction => ({
   type: FETCH_QUESTIONS_PENDING,
@@ -67,7 +67,8 @@ export const fetchQuestions = (): ThunkResult<Promise<void>, FetchQuestionsActio
 ): Promise<void> => {
   dispatch(fetchQuestionsPending());
   try {
-    const questions = await getQuestions();
+    const questions = await Api.allQuestions(); // await getQuestions();
+    console.log(questions);
     const questionSteps = convertResponseToQuestionSteps(questions);
     dispatch(fetchQuestionsSuccess(questionSteps));
   } catch (error) {
