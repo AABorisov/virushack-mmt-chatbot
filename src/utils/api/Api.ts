@@ -11,6 +11,8 @@ interface OptionsHeaders {
   Accept: string;
   'Content-Type': string;
   Authorization?: string;
+  'Access-Control-Allow-Origin'?: string;
+  'Access-Control-Allow-Methods'?: string;
 }
 
 interface ApiClientClassOptions {
@@ -31,6 +33,8 @@ class ApiClientClass {
     this.defaultHeaders = options.headers || {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       // Authorization: 'Basic YWRtaW46cGFzc3dvcmQ=',
     };
     // Создание экзепляра клиента
