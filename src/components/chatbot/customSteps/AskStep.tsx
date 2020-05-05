@@ -19,17 +19,10 @@ const AskStep: React.FC<AskStepProps> = props => {
     Function
   ] = React.useState([]);
 
+  const { triggerNextStep } = props;
   const { previousStep } = props;
   // @ts-ignore
   const question = previousStep.value;
-
-  const { triggerNextStep } = props;
-
-  if (question.indexOf('плохо') > 1) {
-    triggerNextStep({ value: 'sad', trigger: 'sad' });
-  } else if (question.indexOf('солнце') > 1) {
-    triggerNextStep({ value: 'happy', trigger: 'happy' });
-  }
 
   React.useEffect((): (() => void) => {
     const host = 'https://asdwz12.azurewebsites.net/qnamaker';
@@ -56,7 +49,7 @@ const AskStep: React.FC<AskStepProps> = props => {
     fetchData();
 
     return (): void => {};
-  }, [previousStep, question]);
+  }, [question]);
 
   React.useEffect(() => {
     if (!loading) {
@@ -66,6 +59,8 @@ const AskStep: React.FC<AskStepProps> = props => {
 
   // @ts-ignore
   const { key } = props.step;
+
+  setTimeout(() => {}, 0);
 
   return (
     <div className="answer" key={key}>

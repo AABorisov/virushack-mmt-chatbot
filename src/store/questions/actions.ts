@@ -97,7 +97,15 @@ const convertResponseToQuestionSteps = (questions: QuestionsResponseData): Quest
         acc.push({
           id: optionTriggerId,
           user: true,
-          trigger: 'answer',
+          trigger: ({ value }: { value: string }) => {
+            if (value.indexOf('плохо') > 1) {
+              return 'sad';
+            }
+            if (value.indexOf('солнце') > 1) {
+              return 'happy';
+            }
+            return 'answer';
+          },
         });
         step2.id = 'answer';
         step2.trigger = step1.id;

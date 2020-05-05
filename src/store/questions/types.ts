@@ -24,7 +24,7 @@ export interface QuestionStep {
   id: stepId;
   message?: string;
   options?: Array<Option>;
-  trigger?: stepId;
+  trigger?: stepId | Function;
   user?: boolean;
   end?: boolean;
   validator?: Function;
