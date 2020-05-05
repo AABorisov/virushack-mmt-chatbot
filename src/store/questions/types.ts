@@ -17,6 +17,7 @@ export interface Metadata {
   type?: string;
   triggers?: Triggers;
   options?: Array<Option>;
+  image?: string;
 }
 
 export interface QuestionStep {
@@ -30,6 +31,7 @@ export interface QuestionStep {
   metadata?: Metadata;
   waitAction?: boolean;
   component?: any;
+  asMessage?: boolean;
 }
 
 export type QuestionSteps = Array<QuestionStep>;

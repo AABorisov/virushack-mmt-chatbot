@@ -7,6 +7,8 @@ export interface Question {
   text: string;
   title: string;
   triggers?: Triggers;
+  trigger?: QuestionId;
+  image?: string;
 }
 
 export interface Answer {

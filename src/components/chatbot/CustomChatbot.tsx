@@ -9,6 +9,7 @@ import CheckboxStep from './customSteps/CheckboxStep';
 import OptionsStep from './customSteps/options/OptionsStep';
 import AskStep from './customSteps/AskStep';
 import SocialStep from './customSteps/SocialStep';
+import ImageStep from './customSteps/ImageStep';
 
 interface CustomChatbotStateProps {
   questionSteps: QuestionSteps;
@@ -16,8 +17,8 @@ interface CustomChatbotStateProps {
 }
 function CustomChatbot(props: CustomChatbotStateProps) {
   const config = {
-    width: '400px',
-    height: '500px',
+    width: '500px',
+    height: '700px',
     // style: {
     //   height: '700px',
     //   minHeight: '300px',
@@ -61,6 +62,10 @@ function CustomChatbot(props: CustomChatbotStateProps) {
       case 'ask':
         newStep.component = <AskStep />;
         newStep.waitAction = true;
+        break;
+      case 'image':
+        newStep.component = <ImageStep />;
+        newStep.asMessage = true;
         break;
       case 'social':
       case 'last':

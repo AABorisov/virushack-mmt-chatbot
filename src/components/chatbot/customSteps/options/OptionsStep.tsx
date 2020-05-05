@@ -49,9 +49,9 @@ class OptionsStep extends React.Component<OptionsStepProps, { checked: Array<str
     const { triggerNextStep } = this.props;
     const { triggers } = this.props.step.metadata;
     if (checked.length) {
-      triggerNextStep({ value: checked, trigger: triggers.checked });
+      triggerNextStep({ value: true, trigger: triggers.checked });
     } else {
-      triggerNextStep({ value: checked, trigger: triggers.unchecked });
+      triggerNextStep({ value: false, trigger: triggers.unchecked });
     }
   };
 

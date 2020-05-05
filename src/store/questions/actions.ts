@@ -41,13 +41,36 @@ const convertResponseToQuestionSteps = (questions: QuestionsResponseData): Quest
       id: question.questionId.toString(),
       message: question.text,
     };
+
+    if (!!question.image && question.questionType !== 'image') {
+      const messageTrigger = `${question.questionId}_message`;
+      const imageStep = {
+        id: question.questionId.toString(),
+        trigger: messageTrigger,
+        metadata: {
+          image: question.image,
+          type: 'image',
+        },
+      };
+      step1.id = messageTrigger;
+      acc.push(imageStep);
+    }
+
     if (isEnd) {
       step1.end = true;
       acc.push(step1);
       return acc;
     }
     if (question.questionType === 'message') {
-      step1.trigger = acc.push(step1);
+      step1.trigger = question.trigger;
+      acc.push(step1);
+      return acc;
+    }
+    if (question.questionType === 'image') {
+      step1.trigger = question.trigger;
+      step1.metadata.image = question.image;
+      step1.metadata.type = question.questionType;
+      acc.push(step1);
       return acc;
     }
     step1.trigger = optionTriggerId;
