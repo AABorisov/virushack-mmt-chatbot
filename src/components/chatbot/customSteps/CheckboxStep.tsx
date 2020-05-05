@@ -12,9 +12,6 @@ interface CheckboxStepProps {
 }
 
 const CheckboxStep: React.FC<CheckboxStepProps> = props => {
-  console.log(props);
-  // @ts-ignore
-  const { options } = props.step.metadata;
   // @ts-ignore
   const { trigger } = props.step.metadata;
   const { triggerNextStep } = props;
@@ -35,25 +32,14 @@ const CheckboxStep: React.FC<CheckboxStepProps> = props => {
 
   return (
     <div>
-      {/* {options.map((option: { value: string; label: React.ReactNode }) => {*/}
-      {/*  return (*/}
-      {/*    <div key={option.value} className="rsc-ts-bubble">*/}
-      {/*      <input type="checkbox" name={option.value} id={option.value} />*/}
-      {/*      <span>{option.label}</span>*/}
-      {/*    </div>*/}
-      {/*  );*/}
-      {/* })}*/}
-      {/* <Tree nodes={nodes} />*/}
       <CheckboxTree
         nodes={nodes}
         checked={checked}
         expanded={expanded}
         onCheck={(newChecked: Array<string>) => {
-          console.log(checked, newChecked);
           setChecked(newChecked);
         }}
         onExpand={(newExpanded: Array<string>) => {
-          console.log(expanded, newExpanded);
           setExpanded(newExpanded);
         }}
       />

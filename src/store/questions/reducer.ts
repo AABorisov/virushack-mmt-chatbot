@@ -23,7 +23,6 @@ export default function questionsReducer(
         pending: true,
       };
     case FETCH_QUESTIONS_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         questionSteps: [...state.questionSteps, ...action.payload],

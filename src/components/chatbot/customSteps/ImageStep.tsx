@@ -8,7 +8,6 @@ interface ImageStepProps {
 }
 
 const ImageStep: React.FC<ImageStepProps> = props => {
-  console.log(props.step);
   return <></>;
 };
 
