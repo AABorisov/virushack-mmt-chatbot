@@ -9,6 +9,7 @@ const OptionElement = styled.button`
   display: inline-block;
   font-size: 14px;
   padding: 12px;
+  outline: none;
 
   &:hover {
     opacity: 0.7;

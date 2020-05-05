@@ -38,7 +38,6 @@ class OptionsStep extends React.Component<OptionsStepProps, { checked: Array<str
   }
 
   onOptionClick = ({ event, value }: { event: any; value: string }) => {
-    console.log(event);
     const { checked } = this.state;
     const wasValueChecked = checked.includes(value);
     const newChecked = wasValueChecked ? checked.filter(v => v !== value) : [...checked, value];
@@ -60,12 +59,17 @@ class OptionsStep extends React.Component<OptionsStepProps, { checked: Array<str
     const { bubbleOptionStyle, step } = this.props;
     const { user } = step;
     const { value, label } = option;
+    const { checked } = this.state;
+    const style: { background?: string } = {};
+    if (checked.includes(value)) {
+      style.background = '#00818f';
+    }
 
     return (
       <Option key={value} className="rsc-os-option">
         <OptionElement
           className="rsc-os-option-element"
-          // style={bubbleOptionStyle}
+          style={style}
           onClick={event => this.onOptionClick({ event, value })}
         >
           {label}

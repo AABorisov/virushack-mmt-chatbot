@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const NextButton = styled.button`
-  background: blue;
+  background: #f0505a;
   border: 0;
   border-radius: 22px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
@@ -9,6 +9,7 @@ const NextButton = styled.button`
   display: inline-block;
   font-size: 14px;
   padding: 12px;
+  outline: none;
 
   &:hover {
     opacity: 0.7;

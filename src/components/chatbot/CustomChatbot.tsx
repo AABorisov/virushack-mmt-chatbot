@@ -6,7 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import { AppState } from '../../store';
 import { QuestionSteps } from '../../store/questions/types';
 import CheckboxStep from './customSteps/CheckboxStep';
-// import OptionsStep from './customSteps/options/OptionsStep';
+import OptionsStep from './customSteps/options/OptionsStep';
 import AskStep from './customSteps/AskStep';
 import SocialStep from './customSteps/SocialStep';
 
@@ -53,10 +53,10 @@ function CustomChatbot(props: CustomChatbotStateProps) {
     const newStep = { ...step };
     switch (type) {
       case 'checkboxes':
-        newStep.component = <CheckboxStep />;
+        newStep.component = <OptionsStep />;
         break;
       case 'checkboxTree':
-        newStep.component = <CheckboxStep />;
+        newStep.component = <OptionsStep />;
         break;
       case 'ask':
         newStep.component = <AskStep />;
@@ -69,45 +69,7 @@ function CustomChatbot(props: CustomChatbotStateProps) {
     }
     return newStep;
   });
-  console.log(steps);
 
-  /* const steps = [
-    {
-      id: '1',
-      message: 'What is your name?',
-      trigger: '4',
-    },
-    {
-      id: '4',
-      metadata: {
-        options: [
-          { value: 'male', label: 'Male', trigger: '5' },
-          { value: 'female', label: 'Female', trigger: '5' },
-        ],
-        triggers: {
-          checked: '5',
-          unchecked: '5',
-        },
-      },
-      component: <CheckboxStep />,
-    },
-    {
-      id: '5',
-      message: 'Ask anything?',
-      trigger: 'ask',
-    },
-    {
-      id: 'ask',
-      user: true,
-      trigger: 'answer',
-    },
-    {
-      id: 'answer',
-      component: <AskStep />,
-      waitAction: true,
-      trigger: '5',
-    },
-  ];*/
   return (
     <ThemeProvider theme={theme}>
       <ChatBot steps={steps} {...config} />
