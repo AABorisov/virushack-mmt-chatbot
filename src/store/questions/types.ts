@@ -1,7 +1,7 @@
 import { ThunkFetchState } from '../types';
-import { QuestionsResponseData } from '../../utils/api/questions/types';
+import { Triggers } from '../../utils/api/questions/types';
 
-export interface QuestionsState extends QuestionsResponseData, ThunkFetchState {
+export interface QuestionsState extends ThunkFetchState {
   questionSteps: QuestionSteps;
 }
 
@@ -13,6 +13,12 @@ export interface Option {
   trigger: stepId;
 }
 
+export interface Metadata {
+  type?: string;
+  triggers?: Triggers;
+  options?: Array<Option>;
+}
+
 export interface QuestionStep {
   id: stepId;
   message?: string;
@@ -21,6 +27,9 @@ export interface QuestionStep {
   user?: boolean;
   end?: boolean;
   validator?: Function;
+  metadata?: Metadata;
+  waitAction?: boolean;
+  component?: any;
 }
 
 export type QuestionSteps = Array<QuestionStep>;

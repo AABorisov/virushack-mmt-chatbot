@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
   FETCH_QUESTIONS_ERROR,
   FETCH_QUESTIONS_PENDING,
@@ -14,6 +15,8 @@ import { getQuestions } from '../../utils/api/questions';
 import { ThunkResult } from '../types';
 import { QuestionsResponseData } from '../../utils/api/questions/types';
 import Api from '../../utils/api/Api';
+import CheckboxStep from '../../components/chatbot/customSteps/CheckboxStep';
+import AskStep from '../../components/chatbot/customSteps/AskStep';
 
 export const fetchQuestionsPending = (): FetchQuestionsPendingAction => ({
   type: FETCH_QUESTIONS_PENDING,
@@ -30,12 +33,10 @@ export const fetchQuestionsError = (): FetchQuestionsErrorAction => ({
   type: FETCH_QUESTIONS_ERROR,
 });
 
-const convertResponseToQuestionSteps = (response: QuestionsResponseData): QuestionSteps => {
-  const { questions } = response;
-
+const convertResponseToQuestionSteps = (questions: QuestionsResponseData): QuestionSteps => {
   const questionSteps: QuestionSteps = questions.reduce((acc: QuestionSteps, question) => {
     const optionTriggerId = `${question.questionId}_options`;
-    const isEnd: boolean = !question.answers || !question.answers.length;
+    const isEnd: boolean = question.questionType === 'last';
     const step1: QuestionStep = {
       id: question.questionId.toString(),
       message: question.text,
@@ -45,17 +46,48 @@ const convertResponseToQuestionSteps = (response: QuestionsResponseData): Questi
       acc.push(step1);
       return acc;
     }
+    if (question.questionType === 'message') {
+      step1.trigger = acc.push(step1);
+      return acc;
+    }
     step1.trigger = optionTriggerId;
+
+    acc.push(step1);
+
+    const options = question.options.map(answer => ({
+      value: answer.label,
+      value2: answer.value,
+      label: answer.label,
+      trigger: answer.nextQuestionId,
+    }));
 
     const step2: QuestionStep = {
       id: optionTriggerId,
-      options: question.answers.map(answer => ({
-        value: answer.answer,
-        label: answer.answer,
-        trigger: answer.nextQuestionId.toString(),
-      })),
+      metadata: {
+        type: question.questionType,
+        triggers: question.triggers,
+      },
     };
-    acc.push(step1, step2);
+
+    switch (question.questionType) {
+      case 'ask':
+        acc.push({
+          id: optionTriggerId,
+          user: true,
+          trigger: 'answer',
+        });
+        step2.id = 'answer';
+        step2.trigger = step1.id;
+        break;
+
+      case 'last':
+      case 'quiz':
+        step2.options = options;
+        break;
+      default:
+    }
+    step2.metadata.options = options;
+    acc.push(step2);
     return acc;
   }, []);
 
@@ -68,8 +100,6 @@ export const fetchQuestions = (): ThunkResult<Promise<void>, FetchQuestionsActio
   dispatch(fetchQuestionsPending());
   try {
     const questions = await Api.allQuestions();
-    // const questions = await getQuestions();
-    console.log(questions);
     const questionSteps = convertResponseToQuestionSteps(questions);
     dispatch(fetchQuestionsSuccess(questionSteps));
   } catch (error) {

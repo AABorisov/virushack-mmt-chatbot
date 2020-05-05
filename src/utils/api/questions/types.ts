@@ -1,16 +1,33 @@
-export interface QuestionsResponseData {
-  questions: Array<Question>;
-}
+export type QuestionsResponseData = Array<Question>;
 
 export interface Question {
-  answers: Array<Answer>;
-  questionId: number;
+  options: Array<Answer>;
+  questionId: QuestionId;
   questionType: string;
   text: string;
   title: string;
+  triggers?: Triggers;
 }
 
 export interface Answer {
-  answer: string;
-  nextQuestionId: number;
+  label: string;
+  value: string;
+  nextQuestionId?: QuestionId;
+  options?: Array<Answer>;
+}
+
+export interface Triggers {
+  checked: QuestionId;
+  unchecked: QuestionId;
+}
+
+export type QuestionId = number | string;
+
+export enum QuestionType {
+  quizType = 'quiz',
+  checkboxesType = 'checkboxes',
+  checkboxTreeType = 'checkboxTree',
+  socialType = 'social',
+  askType = 'ask',
+  finalType = 'last',
 }

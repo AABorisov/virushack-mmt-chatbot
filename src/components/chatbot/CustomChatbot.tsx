@@ -8,6 +8,7 @@ import { QuestionSteps } from '../../store/questions/types';
 import CheckboxStep from './customSteps/CheckboxStep';
 // import OptionsStep from './customSteps/options/OptionsStep';
 import AskStep from './customSteps/AskStep';
+import SocialStep from './customSteps/SocialStep';
 
 interface CustomChatbotStateProps {
   questionSteps: QuestionSteps;
@@ -44,7 +45,31 @@ function CustomChatbot(props: CustomChatbotStateProps) {
   if (pending) {
     return <></>;
   }
-  const steps = props.questionSteps;
+  const steps = props.questionSteps.map(step => {
+    if (!step.metadata || !step.metadata.type) {
+      return step;
+    }
+    const { type } = step.metadata;
+    const newStep = { ...step };
+    switch (type) {
+      case 'checkboxes':
+        newStep.component = <CheckboxStep />;
+        break;
+      case 'checkboxTree':
+        newStep.component = <CheckboxStep />;
+        break;
+      case 'ask':
+        newStep.component = <AskStep />;
+        newStep.waitAction = true;
+        break;
+      case 'social':
+      case 'last':
+      case 'quiz':
+      default:
+    }
+    return newStep;
+  });
+  console.log(steps);
 
   /* const steps = [
     {

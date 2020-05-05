@@ -7,7 +7,6 @@ import {
 } from './types';
 
 const initialState: QuestionsState = {
-  questions: [],
   pending: false,
   error: false,
   questionSteps: [],
@@ -24,6 +23,7 @@ export default function questionsReducer(
         pending: true,
       };
     case FETCH_QUESTIONS_SUCCESS:
+      console.log(action.payload);
       return {
         ...state,
         questionSteps: [...state.questionSteps, ...action.payload],

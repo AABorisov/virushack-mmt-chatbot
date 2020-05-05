@@ -19,9 +19,8 @@ const AskStep: React.FC<AskStepProps> = props => {
     Function
   ] = React.useState([]);
 
+  const { previousStep } = props;
   React.useEffect((): (() => void) => {
-    const { previousStep } = props;
-
     const host = 'https://asdwz12.azurewebsites.net/qnamaker';
     const endpoint = '/knowledgebases/3fad9fb3-2919-4b60-8422-859f0cc62e64/generateAnswer';
     const Authorization = 'EndpointKey a4a6381c-465c-4cc2-9cb9-ab5ede12fa55';
@@ -41,23 +40,28 @@ const AskStep: React.FC<AskStepProps> = props => {
         },
       });
 
-      setResult(response.data?.answers);
+      setResult(response.data.answers);
       setLoading(false);
     };
 
     fetchData();
 
     return (): void => {};
-  }, [props]);
+  }, [previousStep]);
+
+  const { triggerNextStep } = props;
 
   React.useEffect(() => {
     if (!loading) {
-      props.triggerNextStep({});
+      triggerNextStep({});
     }
-  }, [loading, props]);
+  }, [loading, triggerNextStep]);
+
+  // @ts-ignore
+  const { key } = props.step;
 
   return (
-    <div className="answer">
+    <div className="answer" key={key}>
       {loading ? (
         <Loading />
       ) : (
