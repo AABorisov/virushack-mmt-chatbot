@@ -20,12 +20,21 @@ const AskStep: React.FC<AskStepProps> = props => {
   ] = React.useState([]);
 
   const { previousStep } = props;
+  // @ts-ignore
+  const question = previousStep.value;
+
+  const { triggerNextStep } = props;
+
+  if (question.indexOf('плохо') > 1) {
+    triggerNextStep({ value: 'sad', trigger: 'sad' });
+  } else if (question.indexOf('солнце') > 1) {
+    triggerNextStep({ value: 'happy', trigger: 'happy' });
+  }
+
   React.useEffect((): (() => void) => {
     const host = 'https://asdwz12.azurewebsites.net/qnamaker';
     const endpoint = '/knowledgebases/3fad9fb3-2919-4b60-8422-859f0cc62e64/generateAnswer';
     const Authorization = 'EndpointKey a4a6381c-465c-4cc2-9cb9-ab5ede12fa55';
-    // @ts-ignore
-    const question = previousStep.value;
 
     const fetchData = async () => {
       const response = await axios({
@@ -47,9 +56,7 @@ const AskStep: React.FC<AskStepProps> = props => {
     fetchData();
 
     return (): void => {};
-  }, [previousStep]);
-
-  const { triggerNextStep } = props;
+  }, [previousStep, question]);
 
   React.useEffect(() => {
     if (!loading) {
