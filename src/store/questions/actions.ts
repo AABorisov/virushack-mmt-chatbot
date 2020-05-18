@@ -57,9 +57,14 @@ const convertResponseToQuestionSteps = (questions: QuestionsResponseData): Quest
     }
 
     if (isEnd) {
-      step1.end = true;
-      acc.push(step1);
-      return acc;
+      // step1.end = true;
+      // acc.push(step1);
+      // return acc;
+      question.questionType = 'quiz';
+      question.options = [
+        { label: 'Пройти тест ещё раз?', nextQuestionId: '1', value: '0' },
+        { label: 'Поболтаем?', nextQuestionId: 'ask', value: '0' },
+      ];
     }
     if (question.questionType === 'message') {
       step1.trigger = question.trigger;

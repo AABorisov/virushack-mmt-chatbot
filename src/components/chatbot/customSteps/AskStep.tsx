@@ -26,7 +26,7 @@ const AskStep: React.FC<AskStepProps> = props => {
 
   React.useEffect((): (() => void) => {
     const host = 'https://asdwz12.azurewebsites.net/qnamaker';
-    const endpoint = '/knowledgebases/3fad9fb3-2919-4b60-8422-859f0cc62e64/generateAnswer';
+    const endpoint = '/knowledgebases/9b675538-0038-4aa9-a8fe-e8db534f1f60/generateAnswer';
     const Authorization = 'EndpointKey a4a6381c-465c-4cc2-9cb9-ab5ede12fa55';
 
     const fetchData = async () => {

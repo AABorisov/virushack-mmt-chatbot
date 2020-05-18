@@ -32,7 +32,8 @@
     "@typescript-eslint/no-var-requires": "off",
     "react/prefer-stateless-function": "warn",
     "react/jsx-props-no-spreading": "warn",
-    "react/destructuring-assignment": "warn"
+    "react/destructuring-assignment": "warn",
+    "no-param-reassign": "warn"
   },
   "settings": {
     "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
