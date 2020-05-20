@@ -83,7 +83,7 @@ module.exports = (env, options) => {
         filename: './index.html',
       }),
       new webpack.DefinePlugin({
-        'process.env.API_URL': JSON.stringify('http://89.223.95.49:5000/'),
+        'process.env.API_URL': JSON.stringify('http://covid.agoratech.de:5000/'),
       }),
     ],
     output: {
