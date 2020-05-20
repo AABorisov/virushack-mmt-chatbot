@@ -15,8 +15,8 @@ app.get('*', (req, res) => {
 });
 
 const server = https.createServer({
-  key: fs.readFileSync('../certs/selfsigned.key'),
-  cert: fs.readFileSync('../certs/selfsigned.crt')
+  key: fs.readFileSync('../certs/89.223.95.49.key'),
+  cert: fs.readFileSync('../certs/89.223.95.49.crt')
 }, app)
 
 server.listen(port, function () {
