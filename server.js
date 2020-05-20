@@ -15,9 +15,8 @@ app.get('*', (req, res) => {
 });
 
 const server = https.createServer({
-  key: fs.readFileSync('../certs/key.pem'),
-  cert: fs.readFileSync('../certs/cert.pem'),
-  passphrase: 's1Dxf4Ayn',
+  cert: fs.readFileSync('/etc/letsencrypt/live/covid.agoratech.de/fullchain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/covid.agoratech.de/privkey.pem'),
 }, app)
 
 server.listen(port, function () {
