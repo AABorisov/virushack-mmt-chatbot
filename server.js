@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const https = require('https');
 
 const port = process.env.PORT || 8088;
 const app = express();
@@ -12,4 +14,11 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(port);
+const server = https.createServer({
+  key: fs.readFileSync('../certs/selfsigned.key'),
+  cert: fs.readFileSync('../certs/selfsigned.crt')
+}, app)
+
+server.listen(port, function () {
+  console.log(`Example app listening on port ${port}!`)
+});

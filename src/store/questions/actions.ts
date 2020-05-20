@@ -1,22 +1,17 @@
-import * as React from 'react';
 import {
   FETCH_QUESTIONS_ERROR,
   FETCH_QUESTIONS_PENDING,
   FETCH_QUESTIONS_SUCCESS,
+  FetchQuestionsAction,
   FetchQuestionsErrorAction,
   FetchQuestionsPendingAction,
   FetchQuestionsSuccessAction,
-  FetchQuestionsAction,
-  QuestionSteps,
   QuestionStep,
-  stepId,
+  QuestionSteps,
 } from './types';
-import { getQuestions } from '../../utils/api/questions';
 import { ThunkResult } from '../types';
 import { QuestionsResponseData } from '../../utils/api/questions/types';
 import Api from '../../utils/api/Api';
-import CheckboxStep from '../../components/chatbot/customSteps/CheckboxStep';
-import AskStep from '../../components/chatbot/customSteps/AskStep';
 
 export const fetchQuestionsPending = (): FetchQuestionsPendingAction => ({
   type: FETCH_QUESTIONS_PENDING,
@@ -34,7 +29,7 @@ export const fetchQuestionsError = (): FetchQuestionsErrorAction => ({
 });
 
 const convertResponseToQuestionSteps = (questions: QuestionsResponseData): QuestionSteps => {
-  const questionSteps: QuestionSteps = questions.reduce((acc: QuestionSteps, question) => {
+  return questions.reduce((acc: QuestionSteps, question) => {
     const optionTriggerId = `${question.questionId}_options`;
     const isEnd: boolean = question.questionType === 'last';
     const step1: QuestionStep = {
@@ -126,8 +121,6 @@ const convertResponseToQuestionSteps = (questions: QuestionsResponseData): Quest
     acc.push(step2);
     return acc;
   }, []);
-
-  return questionSteps;
 };
 
 export const fetchQuestions = (): ThunkResult<Promise<void>, FetchQuestionsAction> => async (
