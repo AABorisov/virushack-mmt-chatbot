@@ -1,7 +1,9 @@
 import * as React from 'react';
-// @ts-ignore
-import { CloseIcon, Header, HeaderIcon, HeaderTitle } from 'react-simple-chatbot';
 import { LangEnum } from '../../store/lang/types';
+import HeaderTitle from './chatbotComponents/HeaderTitle';
+import Header from './chatbotComponents/Header';
+import CloseIcon from './chatbotComponents/CloseIcon';
+import HeaderIcon from './chatbotComponents/HeaderIcon';
 
 interface HeaderComponentProps {
   lang: LangEnum;
@@ -14,7 +16,6 @@ const HeaderComponent: React.FC<HeaderComponentProps> = props => {
   return (
     <Header className="rsc-header">
       <HeaderTitle className="rsc-header-title">CovidBot</HeaderTitle>
-
       <div>
         <HeaderIcon
           className="rsc-header-close-button"

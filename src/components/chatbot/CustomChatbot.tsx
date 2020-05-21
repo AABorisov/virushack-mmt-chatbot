@@ -35,6 +35,7 @@ function CustomChatbot(props: CustomChatbotProps) {
     opened,
     recognitionEnable: true,
     recognitionLang: isRuLang ? 'ru' : 'en',
+    toggleFloating: props.setLang,
     headerComponent: (
       <HeaderComponent lang={props.lang} toggleChatBot={setOpened} toggleLang={props.setLang} />
     ),
@@ -91,7 +92,7 @@ function CustomChatbot(props: CustomChatbotProps) {
 
   return (
     <ThemeProvider theme={theme}>
-      <ChatBot steps={steps} {...config} />
+      <ChatBot steps={steps} {...config} key={props.lang} />
     </ThemeProvider>
   );
 }
