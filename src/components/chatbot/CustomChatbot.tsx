@@ -26,7 +26,10 @@ interface CustomChatbotDispatchProps {
 type CustomChatbotProps = CustomChatbotStateProps & CustomChatbotDispatchProps;
 
 function CustomChatbot(props: CustomChatbotProps) {
-  const [opened, setOpened]: [boolean, Function] = React.useState(true);
+  const [{ opened }, toggleOpened]: [{ opened: boolean }, Function] = React.useState({
+    opened: true,
+  });
+
   const isRuLang = LangEnum.ru === props.lang;
   const config = {
     width: '500px',
@@ -35,9 +38,9 @@ function CustomChatbot(props: CustomChatbotProps) {
     opened,
     recognitionEnable: true,
     recognitionLang: isRuLang ? 'ru' : 'en',
-    toggleFloating: props.setLang,
+    toggleFloating: toggleOpened,
     headerComponent: (
-      <HeaderComponent lang={props.lang} toggleChatBot={setOpened} toggleLang={props.setLang} />
+      <HeaderComponent lang={props.lang} toggleChatBot={toggleOpened} toggleLang={props.setLang} />
     ),
     placeholder: isRuLang ? 'Напишите сообщение...' : 'Type the message...',
     recognitionPlaceholder: isRuLang ? 'Слушаем вас...' : 'Listening...',

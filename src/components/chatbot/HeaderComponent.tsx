@@ -29,7 +29,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = props => {
         >
           {isRuLang ? 'EN' : 'RU'}
         </HeaderIcon>
-        <HeaderIcon className="rsc-header-close-button" onClick={() => props.toggleChatBot(false)}>
+        <HeaderIcon
+          className="rsc-header-close-button"
+          onClick={() => props.toggleChatBot({ opened: false })}
+        >
           <CloseIcon />
         </HeaderIcon>
       </div>
