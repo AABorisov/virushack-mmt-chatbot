@@ -4,8 +4,10 @@ import axios, { AxiosInstance } from 'axios';
 
 // @ts-ignore
 import { Loading } from 'react-simple-chatbot';
+import { LangEnum } from '../../../store/lang/types';
 
 interface AskStepProps {
+  lang: LangEnum;
   previousStep?: object;
   step?: object;
   steps?: object;
@@ -19,15 +21,19 @@ const AskStep: React.FC<AskStepProps> = props => {
     Function
   ] = React.useState([]);
 
-  const { triggerNextStep } = props;
-  const { previousStep } = props;
+  const { triggerNextStep, previousStep, lang } = props;
+  const isRuLang = LangEnum.ru === lang;
   // @ts-ignore
   const question = previousStep.value;
 
   React.useEffect((): (() => void) => {
     const host = 'https://asdwz12.azurewebsites.net/qnamaker';
-    const endpoint = '/knowledgebases/9b675538-0038-4aa9-a8fe-e8db534f1f60/generateAnswer';
-    const Authorization = 'EndpointKey a4a6381c-465c-4cc2-9cb9-ab5ede12fa55';
+    const endpoint = isRuLang
+      ? '/knowledgebases/9b675538-0038-4aa9-a8fe-e8db534f1f60/generateAnswer'
+      : '/knowledgebases/c053dd84-0e7f-4f9e-88a6-28e755dd9c7e/generateAnswer';
+    const Authorization = isRuLang
+      ? 'EndpointKey a4a6381c-465c-4cc2-9cb9-ab5ede12fa55'
+      : 'EndpointKey 597a8056-4d4f-4ded-87e6-2012bfa35412';
 
     const fetchData = async () => {
       const response = await axios({
@@ -49,7 +55,7 @@ const AskStep: React.FC<AskStepProps> = props => {
     fetchData();
 
     return (): void => {};
-  }, [question]);
+  }, [isRuLang, question]);
 
   React.useEffect(() => {
     if (!loading) {

@@ -78,7 +78,7 @@ function CustomChatbot(props: CustomChatbotProps) {
         newStep.component = <OptionsStep lang={props.lang} />;
         break;
       case 'ask':
-        newStep.component = <AskStep />;
+        newStep.component = <AskStep lang={props.lang} />;
         newStep.waitAction = true;
         break;
       case 'image':
