@@ -27,7 +27,9 @@ const AskStep: React.FC<AskStepProps> = props => {
   const question = previousStep.value;
 
   React.useEffect((): (() => void) => {
-    const host = 'https://asdwz12.azurewebsites.net/qnamaker';
+    const host = isRuLang
+      ? 'https://asdwz12.azurewebsites.net/qnamaker'
+      : 'https://qnaengbot.azurewebsites.net/qnamaker';
     const endpoint = isRuLang
       ? '/knowledgebases/9b675538-0038-4aa9-a8fe-e8db534f1f60/generateAnswer'
       : '/knowledgebases/c053dd84-0e7f-4f9e-88a6-28e755dd9c7e/generateAnswer';
