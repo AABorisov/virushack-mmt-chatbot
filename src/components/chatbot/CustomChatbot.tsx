@@ -2,32 +2,44 @@ import * as React from 'react';
 // @ts-ignore
 import ChatBot from 'react-simple-chatbot';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { ThemeProvider } from 'styled-components';
 import { AppState } from '../../store';
-import { QuestionSteps } from '../../store/questions/types';
-import CheckboxStep from './customSteps/CheckboxStep';
+import { AllQuestionSteps, QuestionSteps } from '../../store/questions/types';
 import OptionsStep from './customSteps/options/OptionsStep';
 import AskStep from './customSteps/AskStep';
-import SocialStep from './customSteps/SocialStep';
 import ImageStep from './customSteps/ImageStep';
+import { LangEnum, SetLangAction } from '../../store/lang/types';
+import HeaderComponent from './HeaderComponent';
+import { setLang as setLangAction } from '../../store/lang/actions';
 
 interface CustomChatbotStateProps {
-  questionSteps: QuestionSteps;
+  allQuestionSteps: AllQuestionSteps;
   fetchPending: boolean;
+  lang: LangEnum;
 }
-function CustomChatbot(props: CustomChatbotStateProps) {
+
+interface CustomChatbotDispatchProps {
+  setLang: (lang: LangEnum) => SetLangAction;
+}
+
+type CustomChatbotProps = CustomChatbotStateProps & CustomChatbotDispatchProps;
+
+function CustomChatbot(props: CustomChatbotProps) {
+  const [opened, setOpened]: [boolean, Function] = React.useState(true);
+  const isRuLang = LangEnum.ru === props.lang;
   const config = {
     width: '500px',
     height: '700px',
-    // style: {
-    //   height: '700px',
-    //   minHeight: '300px',
-    //   maxHeight: '70vh',
-    // },
     floating: true,
-    opened: true,
+    opened,
     recognitionEnable: true,
-    recognitionLang: 'ru',
+    recognitionLang: isRuLang ? 'ru' : 'en',
+    headerComponent: (
+      <HeaderComponent lang={props.lang} toggleChatBot={setOpened} toggleLang={props.setLang} />
+    ),
+    placeholder: isRuLang ? 'Напишите сообщение...' : 'Type the message...',
+    recognitionPlaceholder: isRuLang ? 'Слушаем вас...' : 'Listening...',
   };
 
   const theme = {
@@ -42,11 +54,13 @@ function CustomChatbot(props: CustomChatbotStateProps) {
     userFontColor: '#4c4c4c',
   };
 
-  const pending = !props.questionSteps.length || props.fetchPending;
+  const questionSteps = isRuLang ? props.allQuestionSteps.ru : props.allQuestionSteps.en;
+
+  const pending = !questionSteps.length || props.fetchPending;
   if (pending) {
     return <></>;
   }
-  const steps = props.questionSteps.map(step => {
+  const steps = questionSteps.map(step => {
     if (!step.metadata || !step.metadata.type) {
       return step;
     }
@@ -54,10 +68,10 @@ function CustomChatbot(props: CustomChatbotStateProps) {
     const newStep = { ...step };
     switch (type) {
       case 'checkboxes':
-        newStep.component = <OptionsStep />;
+        newStep.component = <OptionsStep lang={props.lang} />;
         break;
       case 'checkboxTree':
-        newStep.component = <OptionsStep />;
+        newStep.component = <OptionsStep lang={props.lang} />;
         break;
       case 'ask':
         newStep.component = <AskStep />;
@@ -84,8 +98,12 @@ function CustomChatbot(props: CustomChatbotStateProps) {
 
 // @ts-ignore
 const mapStateToProps = (state: AppState): CustomChatbotStateProps => ({
-  questionSteps: state.questions.questionSteps,
+  allQuestionSteps: state.questions.questionSteps,
   fetchPending: state.questions.pending,
+  lang: state.lang,
 });
 
-export default connect(mapStateToProps)(CustomChatbot);
+const mapDispatchToProps = (dispatch: Dispatch): CustomChatbotDispatchProps =>
+  bindActionCreators({ setLang: setLangAction }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomChatbot);

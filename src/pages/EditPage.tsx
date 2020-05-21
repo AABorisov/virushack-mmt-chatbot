@@ -1,11 +1,7 @@
 import * as React from 'react';
 
 const EditPage: React.FC<{}> = () => {
-  return (
-    <div>
-      <h1>Edit Page</h1>
-    </div>
-  );
+  return <div />;
 };
 
 export default EditPage;

@@ -2,7 +2,12 @@ import { ThunkFetchState } from '../types';
 import { Triggers } from '../../utils/api/questions/types';
 
 export interface QuestionsState extends ThunkFetchState {
-  questionSteps: QuestionSteps;
+  questionSteps: AllQuestionSteps;
+}
+
+export interface AllQuestionSteps {
+  ru: QuestionSteps;
+  en: QuestionSteps;
 }
 
 export type stepId = number | string;
@@ -46,7 +51,7 @@ export interface FetchQuestionsPendingAction {
 
 export interface FetchQuestionsSuccessAction {
   type: typeof FETCH_QUESTIONS_SUCCESS;
-  payload: QuestionSteps;
+  payload: AllQuestionSteps;
 }
 
 export interface FetchQuestionsErrorAction {

@@ -9,7 +9,10 @@ import {
 const initialState: QuestionsState = {
   pending: false,
   error: false,
-  questionSteps: [],
+  questionSteps: {
+    ru: [],
+    en: [],
+  },
 };
 
 export default function questionsReducer(
@@ -25,7 +28,10 @@ export default function questionsReducer(
     case FETCH_QUESTIONS_SUCCESS:
       return {
         ...state,
-        questionSteps: [...state.questionSteps, ...action.payload],
+        questionSteps: {
+          ru: [...state.questionSteps.ru, ...action.payload.ru],
+          en: [...state.questionSteps.en, ...action.payload.en],
+        },
         pending: false,
       };
     case FETCH_QUESTIONS_ERROR:

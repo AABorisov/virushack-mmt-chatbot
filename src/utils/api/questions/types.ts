@@ -1,4 +1,9 @@
-export type QuestionsResponseData = Array<Question>;
+export interface QuestionsResponseData {
+  ru: Array<Question>;
+  en: Array<Question>;
+}
+
+export type Questions = Array<Question>;
 
 export interface Question {
   options: Array<Answer>;

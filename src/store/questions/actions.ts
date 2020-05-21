@@ -1,4 +1,5 @@
 import {
+  AllQuestionSteps,
   FETCH_QUESTIONS_ERROR,
   FETCH_QUESTIONS_PENDING,
   FETCH_QUESTIONS_SUCCESS,
@@ -10,15 +11,16 @@ import {
   QuestionSteps,
 } from './types';
 import { ThunkResult } from '../types';
-import { QuestionsResponseData } from '../../utils/api/questions/types';
+import { Questions } from '../../utils/api/questions/types';
 import Api from '../../utils/api/Api';
+import { LangEnum } from '../lang/types';
 
 export const fetchQuestionsPending = (): FetchQuestionsPendingAction => ({
   type: FETCH_QUESTIONS_PENDING,
 });
 
 export const fetchQuestionsSuccess = (
-  questionSteps: QuestionSteps
+  questionSteps: AllQuestionSteps
 ): FetchQuestionsSuccessAction => ({
   type: FETCH_QUESTIONS_SUCCESS,
   payload: questionSteps,
@@ -28,7 +30,8 @@ export const fetchQuestionsError = (): FetchQuestionsErrorAction => ({
   type: FETCH_QUESTIONS_ERROR,
 });
 
-const convertResponseToQuestionSteps = (questions: QuestionsResponseData): QuestionSteps => {
+const convertResponseToQuestionSteps = (questions: Questions, lang: LangEnum): QuestionSteps => {
+  const isRuLang = LangEnum.ru === lang;
   return questions.reduce((acc: QuestionSteps, question) => {
     const optionTriggerId = `${question.questionId}_options`;
     const isEnd: boolean = question.questionType === 'last';
@@ -57,8 +60,12 @@ const convertResponseToQuestionSteps = (questions: QuestionsResponseData): Quest
       // return acc;
       question.questionType = 'quiz';
       question.options = [
-        { label: 'Пройти тест ещё раз?', nextQuestionId: '1', value: '0' },
-        { label: 'Поболтаем?', nextQuestionId: 'ask', value: '0' },
+        {
+          label: isRuLang ? 'Пройти тест ещё раз?' : 'Do the test again?',
+          nextQuestionId: '1',
+          value: '0',
+        },
+        { label: isRuLang ? 'Поболтаем?' : "Let's talk!", nextQuestionId: 'ask', value: '0' },
       ];
     }
     if (question.questionType === 'message') {
@@ -98,10 +105,10 @@ const convertResponseToQuestionSteps = (questions: QuestionsResponseData): Quest
           id: optionTriggerId,
           user: true,
           trigger: ({ value }: { value: string }) => {
-            if (value.indexOf('плохо') > 1) {
+            if (value.indexOf('плохо') > 1 || value.indexOf('terribly') > 1) {
               return 'sad';
             }
-            if (value.indexOf('солнце') > 1) {
+            if (value.indexOf('солнце') > 1 || value.indexOf('happy') > 1) {
               return 'happy';
             }
             return 'answer';
@@ -128,9 +135,17 @@ export const fetchQuestions = (): ThunkResult<Promise<void>, FetchQuestionsActio
 ): Promise<void> => {
   dispatch(fetchQuestionsPending());
   try {
-    const questions = await Api.allQuestions();
-    const questionSteps = convertResponseToQuestionSteps(questions);
-    dispatch(fetchQuestionsSuccess(questionSteps));
+    const questionsResponseData = await Api.allQuestions();
+    const questionsRu = questionsResponseData.ru;
+    const questionsEn = questionsResponseData.en;
+    const questionStepsRu = convertResponseToQuestionSteps(questionsRu, LangEnum.ru);
+    const questionStepsEn = convertResponseToQuestionSteps(questionsEn, LangEnum.en);
+    dispatch(
+      fetchQuestionsSuccess({
+        ru: questionStepsRu,
+        en: questionStepsEn,
+      })
+    );
   } catch (error) {
     dispatch(fetchQuestionsError());
   }

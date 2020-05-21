@@ -10,7 +10,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className={styles.app}>
-      <header className={styles.header}>VIRUS.HACK | Team: DEV Labs</header>
+      <header className={styles.header}>DEV Labs</header>
       <main className={styles.main}>
         {children}
         <CustomChatbot />

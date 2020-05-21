@@ -5,6 +5,7 @@ import OptionElement from './OptionElement';
 import Options from './Options';
 import OptionsStepContainer from './OptionsStepContainer';
 import NextButton from './NextButton';
+import { LangEnum } from '../../../../store/lang/types';
 
 interface OptionType {
   value: string;
@@ -13,6 +14,7 @@ interface OptionType {
 }
 
 interface OptionsStepProps {
+  lang: LangEnum;
   previousStep?: object;
   step?: {
     user?: boolean;
@@ -79,14 +81,16 @@ class OptionsStep extends React.Component<OptionsStepProps, { checked: Array<str
   };
 
   render() {
-    const { step } = this.props;
+    const { step, lang } = this.props;
     const { options } = step.metadata;
 
     // @ts-ignore
     return (
       <OptionsStepContainer className="rsc-os">
         <Options className="rsc-os-options">{options.map(this.renderOption)}</Options>
-        <NextButton onClick={() => this.onNextClick()}>Далее</NextButton>
+        <NextButton onClick={() => this.onNextClick()}>
+          {LangEnum.ru === lang ? 'Далее' : 'Next'}
+        </NextButton>
       </OptionsStepContainer>
     );
   }
